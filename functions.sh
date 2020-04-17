@@ -419,8 +419,8 @@ symlink_files() {
 
 	for src in $(find -H "symlink" -maxdepth 2 -type f -not -path '*.git*')
 	do
-		dst="$HOME/.$(printf "%s" "$src" | sed "s/.*\/\(.*\)/\1/g")"
-		_link_file "$src" "$dst"
+		dst="$HOME/.$(basename "${src#%.*}")"
+		_link_file "$(pwd)/$src" "$dst"
 	done
 
 	print_in_green "\n  Symlink finished! \n"
@@ -466,7 +466,7 @@ ask() {
 		fi
 
 		# Ask the question (not using "read -p" as it uses stderr not stdout)
-		echo -n "  [?] $1 [$prompt] "
+		echo "  [?] $1 [$prompt] "
 
 		# Read the answer (use /dev/tty in case stdin is redirected from somewhere else)
 		read reply </dev/tty
