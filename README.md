@@ -1,4 +1,4 @@
-# Setup!
+# macOS Setup!
 
 > A shell script to set up a macOS machine for design and development.
 
@@ -11,19 +11,19 @@ packages based on what is already installed on the machine.
 You can clone the repository wherever you want. (I like to keep it in ~/dev/setup),
 the mac script will automate the process with prompts.
 
-`git clone git@github.com/adsric/setup.git && cd setup`
+`git clone git@github.com/adsric/macos-setup.git && cd macos-setup`
 
 **Run the script:**
 
-`./mac.sh`
+`sh macos.sh`
 
 <sub>Just follow the prompts and you’ll be fine. Once the script is done, quit and relaunch Terminal 👌</sub>
 
 **Run the script with a log:**
 
-`./mac.sh 2>&1 | tee ~/setup.log`
+`sh macos.sh 2>&1 | tee ~/setup.log`
 
-:warning: **warning:** I advise against running [this mac script](mac.sh) unless you understand what it’s doing to your computer.
+:warning: **warning:** I advise against running [this macos script](macos.sh) unless you understand what it’s doing to your computer.
 
 :warning: **warning:** It is highly recommended to run the script regularly to keep your computer up to date.
 
@@ -41,7 +41,6 @@ The process will install:
 <details>
 <summary>Unix tools:</summary>
 
-* [Bash](https://www.gnu.org/software/bash/) for a more powerful bash.
 * [Git](https://git-scm.com/) for version control.
 </details>
 
@@ -61,7 +60,6 @@ The process will install:
 <details>
 <summary>Development</summary>
 
-* [Docker](https://docs.docker.com) Provides a way to run applications securely isolated in a container, packaged with all its dependencies and libraries.
 * [Hyper](https://hyper.is/) for an alternative terminal.
 * [Visual Studio Code](https://code.visualstudio.com/) IDE
 </details>

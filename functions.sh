@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 
 ################################################################################
 # VARIABLES
@@ -280,14 +280,6 @@ print_error() {
 # Meta Checks
 ################################################################################
 
-check_bash_version() {
-	if ((BASH_VERSINFO[0] < 3))
-	then
-		print_error "Sorry, you need at least bash-3.0 to run this script."
-		exit 1
-	fi
-}
-
 get_os() {
 
 	local os=""
@@ -547,7 +539,7 @@ mas_setup() {
 }
 
 install_brews() {
-	if [[ ! $(brew list | grep $brew) ]]; then
+	if [[ ! $(brew list --formula | grep $brew) ]]; then
 		echo_install "Installing $brew"
 		brew install $brew >/dev/null
 		print_in_green "${bold}✓ installed!${normal}\n"
@@ -556,13 +548,13 @@ install_brews() {
 	fi
 }
 
-install_application_via_brew() {
-	if [[ ! $(brew cask list | grep $cask) ]]; then
-		echo_install "Installing $cask"
-		brew cask install $cask --appdir=/Applications >/dev/null
+install_casks() {
+	if [[ ! $(brew list --cask | grep $brew) ]]; then
+		echo_install "Installing $brew"
+		brew install $brew >/dev/null
 		print_in_green "${bold}✓ installed!${normal}\n"
 	else
-		print_success_muted "$cask already installed. Skipped."
+		print_success_muted "$brew already installed. Skipped."
 	fi
 }
 
@@ -645,10 +637,10 @@ printf "
  ╭───────────────────────────────────────────────────╮
  │  ${bold}Congrats! You're all setup!${normal}                      │
  │───────────────────────────────────────────────────│
- │  Thanks for using Setup!                          │
+ │  Thanks for using macOS Setup!                    │
  │  If you liked it, then you should star it!        │
  │                                                   │
- │  https://github.com/adsric/setup                  │
+ │  https://github.com/adsric/macos-setup            │
  ╰───────────────────────────────────────────────────╯
 
 "

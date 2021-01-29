@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 
 ################################################################################
 # ERROR: Let the user know if the script fails
@@ -13,18 +13,11 @@ set -e
 ################################################################################
 
 if [ -e functions.sh ]; then
-	cd "$(dirname "${BASH_SOURCE[0]}")" \
-		&& . "functions.sh"
+	source functions.sh
 else
 	printf "\n ⚠️  ./functions.sh not found! \n"
 	exit 1
 fi
-
-################################################################################
-# CHECK: Bash version
-################################################################################
-
-check_bash_version
 
 ################################################################################
 # Get in Setup!          http://patorjk.com/software/taag/ ( font: Script )
@@ -37,7 +30,7 @@ printf "
            /  \|/  |  |   |  |/ \_
           /(__/|__/|_/ \_/|_/|__/
  -------------------------- /| -----------------------
-   [for Bash 3.2 - 3.9]     \|
+   [for macOS 11.1]         \|
  ╭───────────────────────────────────────────────────╮
  │  Okay developers the macOS setup has ${bold}started!${normal}.    │
  │───────────────────────────────────────────────────│
@@ -45,7 +38,7 @@ printf "
  │  It ${green}installs${reset}, ${blue}upgrades${reset}, or ${yellow}skips${reset} packages based   │
  │  on what is already installed on the machine.     │
  ╰───────────────────────────────────────────────────╯
-   ${dim}$(get_os) $(get_os_version) ${normal} // ${dim}$BASH ${normal} // ${dim}$BASH_VERSION${reset}
+   ${dim}$(get_os) $(get_os_version) ${normal}
 "
 
 ################################################################################
@@ -93,7 +86,7 @@ fi
 
 if ! [ -x "$(command -v brew)" ]; then
 	step "Installing Homebrew…"
-	curl -fsS 'https://raw.githubusercontent.com/Homebrew/install/master/install' | ruby
+	/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 	export PATH="/usr/local/bin:$PATH"
 	print_success "Homebrew installed!"
 else
@@ -106,7 +99,7 @@ fi
 
 if [ ! -d "$NVM_DIRECTORY" ]; then
 	step "Installing NVM…"
-	curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash
+	curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash
 	command printf "$NVM_SOURCE_PATH" >> "$HOME/.path"
 	command printf "$NVM_COMPLETION_PATH" >> "$HOME/.path"
 	. $HOME/.path
@@ -148,7 +141,7 @@ if [ -e $cwd/install/casks ]; then
 	chapter "Installing apps via Homebrew…"
 
 	for cask in $(<$cwd/install/casks); do
-		install_application_via_brew $cask
+		install_casks $cask
 	done
 fi
 
@@ -205,21 +198,6 @@ fi
 ################################################################################
 
 chapter "Configure macOS…"
-
-step " macOS Default Bash…"
-if ! grep "$brewPrefix/bin/bash" < /etc/shells &> /dev/null; then
-
-	# Add the path of the `Bash` version installed through `Homebrew`
-	# to the list of login shells from the `/etc/shells` file.
-	#
-	# This needs to be done because applications use this file to
-	# determine whether a shell is valid (e.g.: `chsh` consults the
-	# `/etc/shells` to determine whether an unprivileged user may
-	# change the login shell for her own account).
-	execute "sudo sh -c 'echo $brewPrefix/bin/bash >> /etc/shells'" "Bash (add '$brewPrefix/bin/bash' in '/etc/shells')"
-fi
-
-execute "sudo chsh -s '$brewPrefix/bin/bash' &> /dev/null" "Bash (use latest version)"
 
 step " macOS preferences…"
 if [ -f $cwd/preferences.sh ]; then
