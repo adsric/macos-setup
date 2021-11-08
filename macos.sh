@@ -30,7 +30,7 @@ printf "
            /  \|/  |  |   |  |/ \_
           /(__/|__/|_/ \_/|_/|__/
  -------------------------- /| -----------------------
-   [for macOS 11.1]         \|
+   [for macOS 12.0.1]         \|
  ╭───────────────────────────────────────────────────╮
  │  Okay developers the macOS setup has ${bold}started!${normal}.    │
  │───────────────────────────────────────────────────│
@@ -87,7 +87,8 @@ fi
 if ! [ -x "$(command -v brew)" ]; then
 	step "Installing Homebrew…"
 	/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-	export PATH="/usr/local/bin:$PATH"
+	export PATH="/opt/homebrew/bin:$PATH"
+	command printf '"export PATH="/opt/homebrew/bin:$PATH"' >> "$HOME/.zshrc"
 	print_success "Homebrew installed!"
 else
 	print_success_muted "Homebrew already installed. Skipping."
